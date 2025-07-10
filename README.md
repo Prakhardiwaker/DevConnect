@@ -45,3 +45,13 @@ DevConnect is a full-featured MERN (MongoDB, Express, React, Node.js) stack appl
 
 ## 📂 Project Structure
 
+devconnect/
+├── client/ # React frontend
+│ ├── src/
+│ │ └── components/ # All React components
+│ └── .gitignore
+├── server/ # Node.js backend (optional name if separated)
+├── .gitignore
+├── package.json # For backend
+└── README.md
+
