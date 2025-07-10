@@ -1,0 +1,6 @@
+{
+  "mongoURI": "mongodb+srv://prakhardiwaker:prakhardiwaker@cluster0.4oqnqn5.mongodb.net/",
+  "jwtSecret": "mysecrettoken",
+  "githubClientId": "Ov23liTdq1itkgL5MeyN",
+  "githubSecret": "4a38b199dd81addaef77dd7ab04386def7dc1997"
+}
