@@ -10,27 +10,28 @@ const Profiles = ({ getProfiles, profile: { profiles, loading } }) => {
     getProfiles();
   }, [getProfiles]);
 
-  if (loading) {
-    return <Spinner />;
-  }
+  if (loading) return <Spinner />;
 
   return (
-    <>
-      <h1 className="large text-primary">Developers</h1>
-      <p className="lead">
-        <i className="fab fa-connectdevelop"></i> Browse and Connect with
-        Developers
+    <section className="container py-6">
+      <h1 className="text-4xl font-extrabold text-primary mb-2">Developers</h1>
+      <p className="text-lg text-gray-400 mb-6 flex items-center gap-2">
+        <i className="fab fa-connectdevelop text-primary text-xl" />
+        Browse and connect with developers
       </p>
-      <div className="profiles">
-        {profiles.length > 0 ? (
-          profiles.map((profile) => (
+
+      {profiles.length > 0 ? (
+        <div className="flex flex-col gap-4">
+          {profiles.map((profile) => (
             <ProfileItem key={profile._id} profile={profile} />
-          ))
-        ) : (
-          <h4>No Profiles Found...</h4>
-        )}
-      </div>
-    </>
+          ))}
+        </div>
+      ) : (
+        <h4 className="text-gray-400 text-center mt-10 text-lg">
+          No Profiles Found...
+        </h4>
+      )}
+    </section>
   );
 };
 

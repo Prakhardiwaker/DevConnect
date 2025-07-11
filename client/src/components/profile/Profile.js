@@ -17,76 +17,74 @@ const Profile = ({ getProfileById, profile: { profile, loading }, auth }) => {
     getProfileById(id);
   }, [getProfileById, id]);
 
-  if (loading || profile === null) {
-    return <Spinner />;
-  }
+  if (loading || profile === null) return <Spinner />;
+
+  const isOwner =
+    auth.isAuthenticated && !auth.loading && auth.user._id === profile.user._id;
 
   return (
-    <>
-      <Link to="/profiles" className="btn btn-light">
-        Back To Profiles
-      </Link>
+    <section className="container">
+      <div className="flex justify-between items-center mb-6">
+        <Link to="/profiles" className="btn btn-light">
+          <i className="fas fa-arrow-left mr-1" />
+          Back To Profiles
+        </Link>
 
-      {auth.isAuthenticated &&
-        !auth.loading &&
-        auth.user._id === profile.user._id && (
-          <Link to="/edit-profile" className="btn btn-dark">
+        {isOwner && (
+          <Link to="/edit-profile" className="btn btn-primary">
+            <i className="fas fa-user-edit mr-1" />
             Edit Profile
           </Link>
         )}
+      </div>
 
-      <div className="profile-grid my-1">
+      <div className="profile-grid space-y-6">
         <ProfileTop profile={profile} />
         <ProfileAbout profile={profile} />
 
-        {/* Experience Section */}
-        <div className="profile-exp bg-white p-2">
-          <div className="d-flex justify-between align-center mb-1">
-            <h2 className="text-primary">Experience</h2>
-            {auth.isAuthenticated &&
-              !auth.loading &&
-              auth.user._id === profile.user._id && (
-                <Link to="/add-experience" className="btn btn-light">
-                  <i className="fas fa-plus"></i> Add Experience
-                </Link>
-              )}
+        <div className="glass-card">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-primary text-xl font-semibold">Experience</h2>
+            {isOwner && (
+              <Link to="/add-experience" className="btn btn-light">
+                <i className="fas fa-plus mr-1" />
+                Add Experience
+              </Link>
+            )}
           </div>
-
-          {profile.experience && profile.experience.length > 0 ? (
-            profile.experience.map((experience) => (
-              <ProfileExperience key={experience._id} experience={experience} />
+          {profile.experience?.length > 0 ? (
+            profile.experience.map((exp) => (
+              <ProfileExperience key={exp._id} experience={exp} />
             ))
           ) : (
-            <h4>No experience credentials</h4>
+            <p className="text-gray-400">No experience credentials</p>
           )}
         </div>
 
-        {/* Education Section */}
-        <div className="profile-edu bg-white p-2">
-          <div className="d-flex justify-between align-center mb-1">
-            <h2 className="text-primary">Education</h2>
-            {auth.isAuthenticated &&
-              !auth.loading &&
-              auth.user._id === profile.user._id && (
-                <Link to="/add-education" className="btn btn-light">
-                  <i className="fas fa-plus"></i> Add Education
-                </Link>
-              )}
+        <div className="glass-card">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-primary text-xl font-semibold">Education</h2>
+            {isOwner && (
+              <Link to="/add-education" className="btn btn-light">
+                <i className="fas fa-plus mr-1" />
+                Add Education
+              </Link>
+            )}
           </div>
-
-          {profile.education && profile.education.length > 0 ? (
-            profile.education.map((education) => (
-              <ProfileEducation key={education._id} education={education} />
+          {profile.education?.length > 0 ? (
+            profile.education.map((edu) => (
+              <ProfileEducation key={edu._id} education={edu} />
             ))
           ) : (
-            <h4>No education credentials</h4>
+            <p className="text-gray-400">No education credentials</p>
           )}
         </div>
+
         {profile.githubusername && (
           <ProfileGithub username={profile.githubusername} />
         )}
       </div>
-    </>
+    </section>
   );
 };
 

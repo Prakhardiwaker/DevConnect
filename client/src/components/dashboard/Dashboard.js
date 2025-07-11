@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Spinner from "../layouts/Spinner";
-import DashboardActions from "../dashboard/DashboardActions";
+import DashboardActions from "./DashboardActions";
 import { deleteAccount, getCurrentProfile } from "../../actions/profile";
 import Experience from "./Experience";
 import Education from "./Education";
@@ -18,52 +18,56 @@ const Dashboard = ({
     getCurrentProfile();
   }, [getCurrentProfile]);
 
-  // Show spinner while profile is being fetched
-  if (!profileFetched) {
-    return <Spinner />;
-  }
+  if (!profileFetched) return <Spinner />;
 
   return (
-    <>
-      <h1 className="large text-primary">Dashboard</h1>
-      <p className="lead">
-        <i className="fas fa-user" /> Welcome {user && user.name}
+    <section className="container max-w-5xl my-16">
+      <h1 className="large text-primary text-center">Dashboard</h1>
+      <p className="lead text-center mb-6">
+        <i className="fas fa-user mr-2" />
+        Welcome, <strong>{user && user.name}</strong>
       </p>
 
       {profile && Object.keys(profile).length > 0 ? (
         <>
           <DashboardActions />
-          <Experience experience={profile.experience} />
-          <Education education={profile.education} />
-          <div className="my-2">
-            <button className="btn btn-danger" onClick={() => deleteAccount()}>
+
+          <div className="my-10">
+            <Experience experience={profile.experience} />
+          </div>
+
+          <div className="my-10">
+            <Education education={profile.education} />
+          </div>
+
+          <div className="text-center mt-10">
+            <button
+              className="btn btn-danger inline-flex items-center gap-2"
+              onClick={deleteAccount}
+            >
               <i className="fas fa-user-minus"></i> Delete My Account
             </button>
           </div>
         </>
       ) : (
-        <>
-          <p>You have not yet set up a profile, please add some info.</p>
-          <Link to="/create-profile" className="btn btn-primary my-1">
+        <div className="text-center mt-10">
+          <p className="text-gray-400 mb-4">
+            You have not yet set up a profile. Please add some info.
+          </p>
+          <Link to="/create-profile" className="btn btn-primary">
             Create Profile
           </Link>
-        </>
+        </div>
       )}
-    </>
+    </section>
   );
 };
 
 Dashboard.propTypes = {
   getCurrentProfile: PropTypes.func.isRequired,
   deleteAccount: PropTypes.func.isRequired,
-  auth: PropTypes.shape({
-    user: PropTypes.object,
-  }).isRequired,
-  profile: PropTypes.shape({
-    profile: PropTypes.object,
-    loading: PropTypes.bool,
-    profileFetched: PropTypes.bool,
-  }).isRequired,
+  auth: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -71,6 +75,7 @@ const mapStateToProps = (state) => ({
   profile: state.profile,
 });
 
-export default connect(mapStateToProps, { getCurrentProfile, deleteAccount })(
-  Dashboard
-);
+export default connect(mapStateToProps, {
+  getCurrentProfile,
+  deleteAccount,
+})(Dashboard);

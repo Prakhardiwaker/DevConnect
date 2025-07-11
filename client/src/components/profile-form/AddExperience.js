@@ -26,91 +26,99 @@ const AddExperience = ({ addExperience }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    addExperience(formData, navigate); // use navigate to redirect after submission
+    addExperience(formData, navigate);
   };
 
   return (
-    <>
-      <h1 className="large text-primary">Add An Experience</h1>
-      <p className="lead">
-        <i className="fas fa-code-branch"></i> Add any developer/programming
-        positions that you have had in the past
+    <section className="container max-w-2xl mx-auto p-6 rounded-xl border border-[rgba(255,255,255,0.15)] bg-[rgba(255,255,255,0.05)] backdrop-blur-lg shadow-md">
+      <h1 className="text-3xl font-bold text-primary-500 mb-2 flex items-center">
+        <i className="fas fa-briefcase mr-2" />
+        Add An Experience
+      </h1>
+      <p className="text-sm text-gray-400 mb-3">
+        Include past or current positions you've held in the dev world
       </p>
-      <small>* = required field</small>
-      <form className="form" onSubmit={onSubmit}>
-        <div className="form-group">
+      <small className="text-sm text-gray-500 block mb-5">
+        * = required field
+      </small>
+
+      <form className="space-y-4" onSubmit={onSubmit}>
+        <input
+          type="text"
+          placeholder="* Job Title"
+          name="title"
+          value={title}
+          onChange={onChange}
+          required
+          className="form-input"
+        />
+        <input
+          type="text"
+          placeholder="* Company"
+          name="company"
+          value={company}
+          onChange={onChange}
+          required
+          className="form-input"
+        />
+        <input
+          type="text"
+          placeholder="Location"
+          name="location"
+          value={location}
+          onChange={onChange}
+          className="form-input"
+        />
+        <div>
+          <label className="block mb-1 text-sm text-gray-300">From Date</label>
           <input
-            type="text"
-            placeholder="* Job Title"
-            name="title"
-            value={title}
+            type="date"
+            name="from"
+            value={from}
             onChange={onChange}
-            required
+            className="form-input"
           />
         </div>
-        <div className="form-group">
+        <div className="flex items-center gap-3">
           <input
-            type="text"
-            placeholder="* Company"
-            name="company"
-            value={company}
-            onChange={onChange}
-            required
+            type="checkbox"
+            name="current"
+            checked={current}
+            onChange={() => {
+              setFormData({ ...formData, current: !current });
+              toggleDisabled(!toDateDisabled);
+            }}
+            className="accent-primary w-4 h-4"
           />
+          <label className="text-gray-300 text-sm">Current Job</label>
         </div>
-        <div className="form-group">
-          <input
-            type="text"
-            placeholder="Location"
-            name="location"
-            value={location}
-            onChange={onChange}
-          />
-        </div>
-        <div className="form-group">
-          <h4>From Date</h4>
-          <input type="date" name="from" value={from} onChange={onChange} />
-        </div>
-        <div className="form-group">
-          <p>
-            <input
-              type="checkbox"
-              name="current"
-              checked={current}
-              onChange={() => {
-                setFormData({ ...formData, current: !current });
-                toggleDisabled(!toDateDisabled);
-              }}
-            />{" "}
-            Current Job
-          </p>
-        </div>
-        <div className="form-group">
-          <h4>To Date</h4>
+        <div>
+          <label className="block mb-1 text-sm text-gray-300">To Date</label>
           <input
             type="date"
             name="to"
             value={to}
             onChange={onChange}
             disabled={toDateDisabled}
+            className="form-input"
           />
         </div>
-        <div className="form-group">
-          <textarea
-            name="description"
-            cols="30"
-            rows="5"
-            placeholder="Job Description"
-            value={description}
-            onChange={onChange}
-          ></textarea>
+        <textarea
+          name="description"
+          rows="5"
+          placeholder="Job Description"
+          value={description}
+          onChange={onChange}
+          className="form-textarea"
+        ></textarea>
+        <div className="flex gap-4 pt-3">
+          <input type="submit" className="btn btn-primary" value="Submit" />
+          <Link to="/dashboard" className="btn">
+            Go Back
+          </Link>
         </div>
-        <input type="submit" className="btn btn-primary my-1" />
-        <Link className="btn btn-light my-1" to="/dashboard">
-          Go Back
-        </Link>
       </form>
-    </>
+    </section>
   );
 };
 
