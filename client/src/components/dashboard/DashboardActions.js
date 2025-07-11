@@ -3,15 +3,24 @@ import { Link } from "react-router-dom";
 
 const DashboardActions = () => {
   return (
-    <div className="dash-buttons">
-      <Link to="/edit-profile" className="btn btn-light">
-        <i className="fas fa-user-circle text-primary"></i> Edit Profile
+    <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mt-6">
+      <Link
+        to="/edit-profile"
+        className="btn btn-light flex items-center gap-2 w-full sm:w-auto justify-center"
+      >
+        <i className="fas fa-user-circle text-primary-500"></i> Edit Profile
       </Link>
-      <Link to="/add-experience" className="btn btn-light">
-        <i className="fab fa-black-tie text-primary"></i> Add Experience
+      <Link
+        to="/add-experience"
+        className="btn btn-light flex items-center gap-2 w-full sm:w-auto justify-center"
+      >
+        <i className="fab fa-black-tie text-primary-500"></i> Add Experience
       </Link>
-      <Link to="/add-education" className="btn btn-light">
-        <i className="fas fa-graduation-cap text-primary"></i> Add Education
+      <Link
+        to="/add-education"
+        className="btn btn-light flex items-center gap-2 w-full sm:w-auto justify-center"
+      >
+        <i className="fas fa-graduation-cap text-primary-500"></i> Add Education
       </Link>
     </div>
   );

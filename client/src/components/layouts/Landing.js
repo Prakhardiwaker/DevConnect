@@ -4,19 +4,17 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 function Landing({ isAuthenticated }) {
-  if (isAuthenticated) {
-    return <Navigate to="/dashboard" />;
-  }
+  if (isAuthenticated) return <Navigate to="/dashboard" />;
+
   return (
     <section className="landing">
       <div className="dark-overlay">
-        <div className="landing-inner">
-          <h1 className="x-large">Developer Connector</h1>
-          <p className="lead">
-            Create a developer profile/portfolio, share posts and get help from
-            other developers
+        <div className="landing-inner text-center">
+          <h1 className="x-large">DevConnector</h1>
+          <p className="lead mb-6">
+            Create a profile, showcase your work, connect with other developers
           </p>
-          <div className="buttons">
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
             <Link to="/register" className="btn btn-primary">
               Sign Up
             </Link>

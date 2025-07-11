@@ -13,18 +13,27 @@ const CommentForm = ({ postId, addComment }) => {
   };
 
   return (
-    <div className="post-form">
-      <form className="form my-1" onSubmit={onSubmit}>
+    <div className="post-form form my-6">
+      <form
+        className="form flex flex-col gap-y-4"
+        onSubmit={onSubmit}
+        autoComplete="off"
+      >
         <textarea
           name="text"
-          cols="30"
           rows="5"
           placeholder="Leave a comment"
           value={text}
           onChange={(e) => setText(e.target.value)}
           required
-        ></textarea>
-        <input type="submit" className="btn btn-dark my-1" value="Submit" />
+          className="resize-none"
+        />
+        <input
+          type="submit"
+          className="btn btn-primary self-start"
+          value="Submit"
+          aria-label="Submit Comment"
+        />
       </form>
     </div>
   );

@@ -7,36 +7,48 @@ import Spinner from "../layouts/Spinner";
 const ProfileGithub = ({ username, getGithubRepos, repos }) => {
   useEffect(() => {
     getGithubRepos(username);
-  }, [getGithubRepos]);
+  }, [getGithubRepos, username]);
+
   return (
-    <div className="profile-github">
-      <h2 className="text-primary my-1">Github Repos</h2>
+    <div className="my-4">
+      <h2 className="text-xl font-bold text-accent mb-3">
+        GitHub Repositories
+      </h2>
       {repos === null ? (
         <Spinner />
       ) : (
         repos.map((repo) => (
-          <div key={repo._id} className="repo bg-white p-1 my-1">
-            <div>
-              <h4>
+          <div
+            key={repo._id}
+            className="bg-dark-700 border border-glass-border rounded-xl p-5 mb-4 shadow hover:shadow-lg transition-shadow duration-300"
+          >
+            <div className="mb-2">
+              <h4 className="text-lg font-semibold text-primary">
                 <a
                   href={repo.html_url}
                   target="_blank"
                   rel="noopener noreferrer"
+                  className="hover:underline"
                 >
                   {repo.name}
                 </a>
               </h4>
-              <p>{repo.description}</p>
+              {repo.description && (
+                <p className="text-sm text-gray-400">{repo.description}</p>
+              )}
             </div>
-            <ul>
-              <li className="badge badge-primary">
-                Stars:{repo.stargazers_count}
-              </li>
-              <li className="badge badge-dark">
-                Watchers:{repo.watchers_count}
-              </li>
-              <li className="badge badge-light">Forks:{repo.forks_count}</li>
-            </ul>
+
+            <div className="flex flex-wrap gap-3 text-sm mt-2">
+              <span className="px-3 py-1 rounded-full bg-blue-600 text-white font-medium">
+                ⭐ Stars: {repo.stargazers_count}
+              </span>
+              <span className="px-3 py-1 rounded-full bg-gray-800 text-gray-200 font-medium">
+                👀 Watchers: {repo.watchers_count}
+              </span>
+              <span className="px-3 py-1 rounded-full bg-gray-100 text-black font-medium">
+                🍴 Forks: {repo.forks_count}
+              </span>
+            </div>
           </div>
         ))
       )}

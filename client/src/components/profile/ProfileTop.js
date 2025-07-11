@@ -1,12 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-// Helper function to ensure proper URL format
 const normalizeUrl = (url) => {
   if (!url) return "#";
-  return url.startsWith("http://") || url.startsWith("https://")
-    ? url
-    : `https://${url}`;
+  return url.startsWith("http") ? url : `https://${url}`;
 };
 
 const ProfileTop = ({
@@ -20,69 +17,44 @@ const ProfileTop = ({
   },
 }) => {
   return (
-    <div className="profile-top bg-primary p-2">
-      <img className="round-img my-1" src={avatar} alt={name} />
-      <h1 className="large">{name}</h1>
-      <p className="lead">
-        {status} {company && <span>at {company}</span>}
+    <div className="profile-top glass-primary rounded-xl p-6 text-center shadow-md">
+      <img
+        className="w-28 h-28 rounded-full mx-auto mb-4 border-4 border-accent shadow"
+        src={avatar}
+        alt={name}
+      />
+      <h1 className="text-2xl font-bold text-white">{name}</h1>
+      <p className="text-lg text-gray-300 mt-1">
+        {status} {company && <span className="text-accent">at {company}</span>}
       </p>
-      <p>{location && <span>{location}</span>}</p>
-      <div className="icons my-1">
+      {location && <p className="text-gray-400">{location}</p>}
+
+      <div className="flex justify-center gap-5 mt-4 flex-wrap">
         {website && (
           <a
             href={normalizeUrl(website)}
             target="_blank"
             rel="noopener noreferrer"
+            className="text-white hover:text-accent transition-transform transform hover:scale-110"
           >
             <i className="fas fa-globe fa-2x"></i>
           </a>
         )}
-
-        {social?.twitter && (
-          <a
-            href={normalizeUrl(social.twitter)}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <i className="fab fa-twitter fa-2x"></i>
-          </a>
-        )}
-        {social?.facebook && (
-          <a
-            href={normalizeUrl(social.facebook)}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <i className="fab fa-facebook fa-2x"></i>
-          </a>
-        )}
-        {social?.linkedin && (
-          <a
-            href={normalizeUrl(social.linkedin)}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <i className="fab fa-linkedin fa-2x"></i>
-          </a>
-        )}
-        {social?.youtube && (
-          <a
-            href={normalizeUrl(social.youtube)}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <i className="fab fa-youtube fa-2x"></i>
-          </a>
-        )}
-        {social?.instagram && (
-          <a
-            href={normalizeUrl(social.instagram)}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <i className="fab fa-instagram fa-2x"></i>
-          </a>
-        )}
+        {social &&
+          Object.entries(social).map(
+            ([key, value]) =>
+              value && (
+                <a
+                  key={key}
+                  href={normalizeUrl(value)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white hover:text-accent transition-transform transform hover:scale-110"
+                >
+                  <i className={`fab fa-${key} fa-2x`}></i>
+                </a>
+              )
+          )}
       </div>
     </div>
   );

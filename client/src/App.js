@@ -24,6 +24,7 @@ import store from "./store";
 import { loadUser } from "./actions/auth";
 import setAuthToken from "./utils/setAuthToken";
 
+// Check local token
 if (localStorage.token) {
   setAuthToken(localStorage.token);
 }
@@ -35,35 +36,37 @@ const AppWrapper = () => {
 
   return (
     <Router>
-      <Navbar />
-      <div className="container">
-        <Alert />
-        <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/profiles" element={<Profiles />} />
-          <Route path="/profile/:id" element={<Profile />} />
+      <div className="min-h-screen bg-dark-800 text-gray-100">
+        <Navbar />
+        <main className="pt-20 container">
+          <Alert />
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/profiles" element={<Profiles />} />
+            <Route path="/profile/:id" element={<Profile />} />
 
-          {/* Private Routes */}
-          <Route element={<PrivateRoute />}>
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/create-profile" element={<CreateProfile />} />
-            <Route path="/edit-profile" element={<EditProfile />} />
-            <Route path="/add-experience" element={<AddExperience />} />
-            <Route path="/add-education" element={<AddEducation />} />
-            <Route path="/posts" element={<Posts />} />
-            <Route path="/posts/:id" element={<Post />} />
-          </Route>
+            {/* Private Routes */}
+            <Route element={<PrivateRoute />}>
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/create-profile" element={<CreateProfile />} />
+              <Route path="/edit-profile" element={<EditProfile />} />
+              <Route path="/add-experience" element={<AddExperience />} />
+              <Route path="/add-education" element={<AddEducation />} />
+              <Route path="/posts" element={<Posts />} />
+              <Route path="/posts/:id" element={<Post />} />
+            </Route>
 
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </main>
       </div>
     </Router>
   );
 };
 
-// ✅ Wrap with Provider here
+// Wrap with Provider
 const App = () => (
   <Provider store={store}>
     <AppWrapper />

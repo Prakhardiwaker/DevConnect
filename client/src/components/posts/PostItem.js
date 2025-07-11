@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import Moment from "react-moment";
-import { connect, shallowEqual } from "react-redux";
+import { connect } from "react-redux";
 import { addLike, removeLike, deletePost } from "../../actions/post";
+import { formatPostDate } from "../../utils/dateFormat";
 
 const PostItem = ({
   deletePost,
@@ -14,51 +14,62 @@ const PostItem = ({
   showActions,
 }) => {
   return (
-    <div className="post bg-white p-1 my-1">
-      <div>
+    <div className="post glass-card p-4 mb-6 flex flex-col md:flex-row gap-6 items-start rounded-lg border border-glass-border shadow-sm">
+      <div className="text-center md:w-1/5">
         <Link to={`/profile/${user}`}>
-          <img className="round-img" src={avatar} alt={`${name}'s avatar`} />
-          <h4>{name}</h4>
+          <img
+            className="round-img mx-auto mb-2"
+            src={avatar}
+            alt={`${name}'s avatar`}
+          />
+          <h4 className="font-semibold">{name}</h4>
         </Link>
       </div>
-      <div>
-        <p className="my-1">{text}</p>
-        <p className="post-date">
-          Posted on <Moment format="YYYY/MM/DD">{date}</Moment>
+      <div className="flex-1">
+        <p className="my-2 text-gray-100">{text}</p>
+        <p className="text-sm text-gray-400 mb-4">
+          Posted on {formatPostDate(date)}
         </p>
+
         {showActions && (
-          <>
+          <div className="flex flex-wrap items-center gap-2">
             <button
-              onClick={(e) => addLike(_id)}
+              onClick={() => addLike(_id)}
               type="button"
               className="btn btn-light"
+              aria-label="Like post"
             >
               <i className="fas fa-thumbs-up"></i>{" "}
               {likes.length > 0 && <span>{likes.length}</span>}
             </button>
+
             <button
-              onClick={(e) => removeLike(_id)}
+              onClick={() => removeLike(_id)}
               type="button"
               className="btn btn-light"
+              aria-label="Unlike post"
             >
               <i className="fas fa-thumbs-down"></i>
             </button>
+
             <Link to={`/posts/${_id}`} className="btn btn-primary">
               Discussion{" "}
               {comments.length > 0 && (
-                <span className="comment-count">{comments.length}</span>
+                <span className="ml-1">{comments.length}</span>
               )}
             </Link>
+
             {!auth.loading && user === auth.user._id && (
               <button
-                onClick={(e) => deletePost(_id)}
+                onClick={() => deletePost(_id)}
                 type="button"
                 className="btn btn-danger"
+                aria-label="Delete post"
               >
                 <i className="fas fa-times"></i>
               </button>
             )}
-          </>
+          </div>
         )}
       </div>
     </div>
@@ -81,6 +92,8 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { addLike, removeLike, deletePost })(
-  PostItem
-);
+export default connect(mapStateToProps, {
+  addLike,
+  removeLike,
+  deletePost,
+})(PostItem);

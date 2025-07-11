@@ -1,49 +1,60 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Moment from "react-moment";
 import { connect } from "react-redux";
 import { deleteExperience } from "../../actions/profile";
+import { formatProfileDate } from "../../utils/dateFormat";
 
 const Experience = ({ experience, deleteExperience }) => {
-  const experiences = experience.map((exp) => (
-    <tr key={exp._id}>
-      <td>{exp.company}</td>
-      <td className="hide-sm">{exp.title}</td>
-      <td>
-        <Moment format="YYYY/MM/DD">{exp.from}</Moment> -{" "}
-        {exp.to === null ? (
-          "Now"
-        ) : (
-          <Moment format="YYYY/MM/DD">{exp.to}</Moment>
-        )}
-      </td>
-      <td>
-        <button
-          className="btn btn-danger"
-          onClick={() => {
-            deleteExperience(exp.id);
-          }}
-        >
-          Delete
-        </button>
-      </td>
-    </tr>
-  ));
-
   return (
     <>
-      <h2 className="my-2">Experience Credentials</h2>
-      <table className="table">
-        <thead>
-          <tr>
-            <th>Company</th>
-            <th className="hide-sm">Title</th>
-            <th className="hide-sm">Years</th>
-            <th />
-          </tr>
-        </thead>
-        <tbody>{experiences}</tbody>
-      </table>
+      <h2 className="text-2xl font-semibold text-center text-primary mb-4">
+        Experience Credentials
+      </h2>
+      <div className="overflow-x-auto rounded-lg shadow-sm">
+        <table className="w-full text-sm text-left bg-dark-700 text-gray-200 rounded-xl overflow-hidden">
+          <thead className="bg-dark-600 text-gray-300 text-sm uppercase">
+            <tr>
+              <th className="px-6 py-3">Company</th>
+              <th className="px-6 py-3 hidden sm:table-cell">Title</th>
+              <th className="px-6 py-3 hidden sm:table-cell">Years</th>
+              <th className="px-6 py-3 text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {experience.length > 0 ? (
+              experience.map((exp) => (
+                <tr
+                  key={exp._id}
+                  className="border-b border-dark-600 hover:bg-dark-600 transition"
+                >
+                  <td className="px-6 py-4">{exp.company}</td>
+                  <td className="px-6 py-4 hidden sm:table-cell">
+                    {exp.title}
+                  </td>
+                  <td className="px-6 py-4 hidden sm:table-cell">
+                    {formatProfileDate(exp.from)} -{" "}
+                    {exp.to ? formatProfileDate(exp.to) : "Now"}
+                  </td>
+                  <td className="px-6 py-4 text-right">
+                    <button
+                      onClick={() => deleteExperience(exp._id)}
+                      className="btn btn-danger btn-sm"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="4" className="px-6 py-4 text-center text-gray-400">
+                  No experience credentials added yet.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
     </>
   );
 };

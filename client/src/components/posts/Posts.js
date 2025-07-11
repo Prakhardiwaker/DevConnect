@@ -10,21 +10,24 @@ const Posts = ({ getPosts, post: { posts, loading } }) => {
   useEffect(() => {
     getPosts();
   }, [getPosts]);
-  return loading ? (
-    <Spinner />
-  ) : (
-    <>
-      <h1 className="large text-primary">Posts</h1>
-      <p className="lead">
-        <i className="fas fa-user"></i>Welcome to the community
+
+  if (loading) return <Spinner />;
+
+  return (
+    <section className="container">
+      <h1 className="x-large text-primary text-center">Posts</h1>
+      <p className="lead text-center mb-6">
+        <i className="fas fa-user mr-2" /> Welcome to the community
       </p>
       <PostForm />
-      <div className="posts">
-        {posts.map((post) => (
-          <PostItem key={post.id} post={post} />
-        ))}
+      <div className="space-y-6 mt-8">
+        {posts.length > 0 ? (
+          posts.map((post) => <PostItem key={post._id} post={post} />)
+        ) : (
+          <p className="text-gray-400 text-center mt-4">No posts yet.</p>
+        )}
       </div>
-    </>
+    </section>
   );
 };
 

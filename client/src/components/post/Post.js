@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layouts/Spinner";
@@ -7,7 +7,6 @@ import PostItem from "../posts/PostItem";
 import CommentForm from "../post/CommentForm";
 import CommentItem from "../post/CommentItem";
 import { getPost } from "../../actions/post";
-import { useParams } from "react-router-dom";
 
 const Post = ({ getPost, post: { post, loading } }) => {
   const { id } = useParams();
@@ -16,21 +15,39 @@ const Post = ({ getPost, post: { post, loading } }) => {
     getPost(id);
   }, [getPost, id]);
 
-  return loading || post === null ? (
-    <Spinner />
-  ) : (
-    <>
-      <Link to="/posts" className="btn">
-        Back To Posts
+  if (loading || !post) {
+    return <Spinner />;
+  }
+
+  return (
+    <section className="container my-6">
+      <Link to="/posts" className="btn mb-4 inline-flex items-center gap-1">
+        <span className="text-lg">←</span> Back To Posts
       </Link>
+
       <PostItem post={post} showActions={false} />
-      <CommentForm postId={post._id} />
-      <div className="comments">
-        {post.comments.map((comment) => (
-          <CommentItem key={comment._id} comment={comment} postId={post._id} />
-        ))}
+
+      <div className="mt-8">
+        <h2 className="large text-primary mb-4">Comments</h2>
+        <CommentForm postId={post._id} />
+
+        <div className="comments flex flex-col gap-6 mt-6">
+          {post.comments.length > 0 ? (
+            post.comments.map((comment) => (
+              <CommentItem
+                key={comment._id}
+                comment={comment}
+                postId={post._id}
+              />
+            ))
+          ) : (
+            <p className="text-gray-400 italic">
+              No comments yet. Be the first to comment!
+            </p>
+          )}
+        </div>
       </div>
-    </>
+    </section>
   );
 };
 

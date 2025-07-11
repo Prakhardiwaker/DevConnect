@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import { Link, Navigate } from "react-router-dom"; // ✅ FIXED: Use Navigate
+import { Link, Navigate } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { login } from "../../actions/auth";
 
 function Login({ login, isAuthenticated }) {
   const [formData, setFormData] = useState({
-    email: "user4@gmail.com",
-    password: "123456",
+    email: "",
+    password: "",
   });
 
   const { email, password } = formData;
@@ -20,44 +20,58 @@ function Login({ login, isAuthenticated }) {
     login(email, password);
   };
 
-  // Redirect if logged in
   if (isAuthenticated) {
-    return <Navigate to="/dashboard" />; // ✅ FIXED
+    return <Navigate to="/dashboard" />;
   }
 
   return (
-    <>
-      <h1 className="large text-primary">Sign In</h1>
-      <p className="lead">
-        <i className="fas fa-user"></i> Sign Into Your Account
+    <div className="container max-w-md my-16">
+      <h1 className="large text-primary text-center">Sign In</h1>
+      <p className="lead text-center">
+        <i className="fas fa-user mr-2"></i> Access your account securely
       </p>
-      <form className="form" onSubmit={(e) => onSubmit(e)}>
+      <form
+        className="form bg-glass-bg border border-glass-border rounded-xl p-6 shadow-md backdrop-blur-md"
+        onSubmit={onSubmit}
+        autoComplete="off"
+      >
         <div className="form-group">
           <input
             type="email"
             placeholder="Email Address"
             name="email"
             value={email}
-            onChange={(e) => onChange(e)}
+            onChange={onChange}
+            required
+            className="w-full p-3 rounded bg-dark-700 text-gray-100 border border-glass-border focus:outline-none focus:ring-2 focus:ring-primary-500"
+            autoFocus
           />
         </div>
-        <div className="form-group">
+        <div className="form-group mt-5">
           <input
             type="password"
             placeholder="Password"
             name="password"
             minLength="6"
             value={password}
-            onChange={(e) => onChange(e)}
+            onChange={onChange}
+            required
+            className="w-full p-3 rounded bg-dark-700 text-gray-100 border border-glass-border focus:outline-none focus:ring-2 focus:ring-primary-500"
           />
         </div>
-
-        <input type="submit" className="btn btn-primary" value="Login" />
+        <input
+          type="submit"
+          className="btn btn-primary mt-6 w-full"
+          value="Login"
+        />
       </form>
-      <p className="my-1">
-        Do not have an Account? <Link to="/register">Sign Up</Link>
+      <p className="mt-6 text-center text-gray-400">
+        Don't have an account?{" "}
+        <Link to="/register" className="text-primary-500 hover:underline">
+          Sign Up
+        </Link>
       </p>
-    </>
+    </div>
   );
 }
 
