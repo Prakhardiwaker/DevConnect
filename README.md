@@ -43,7 +43,7 @@ DevConnect is a full-featured **MERN (MongoDB, Express, React, Node.js)** stack 
 - Express Validator
 
 ---
-
+```
 ## 📂 Project Structure
 devconnect/
 ├── client/ # React frontend
@@ -70,7 +70,8 @@ devconnect/
 ├── package.json # Backend dependencies
 ├── README.md
 
-
+```
+---
 
 ---
 
@@ -88,7 +89,12 @@ devconnect/
 ```bash
 git clone https://github.com/your-username/devconnect.git
 cd devconnect
+```
+---
 
+Check out the images of the final application in the images folder.
+
+---
 
 Let me know if you want to:
 
